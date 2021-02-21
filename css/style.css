@@ -1,0 +1,57 @@
+@import url('href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">');
+h1 {
+  font-family:'Courier New', Courier, monospace;
+  text-align: center;
+  font-size: 75px;
+  background-color:rgb(209, 157, 235);
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  color:rgb(64, 9, 92);
+}
+p{
+  color:rgb(64, 9, 92);
+  font-weight: bold;
+  font-family:'Courier New', Courier, monospace;
+  text-align: center;
+  padding: 15px;
+}
+
+
+ul {
+  width: 1150px;
+  margin: 0px auto;
+}
+
+ul li img {
+  float: left;
+  margin-left: 50px;
+  border-style :groove;
+  border-width: 5px;
+  border-radius: 25px;
+  border-color:rgb(209, 157, 235);
+  height: 300px;
+  width: 300px;
+}
+
+table {
+ border: 1px solid rgb(64, 9, 92);
+
+  color:rgb(64, 9, 92);
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+
+}
+
+th, td {
+  border: 1px solid rgb(64, 9, 92);
+  margin-left: 100px;
+  margin-top: 10px;
+  padding-right: 15px;
+  padding-bottom: 10px;
+}
+
+th {
+  font-weight: bold;
+}
