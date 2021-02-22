@@ -63,6 +63,7 @@ let updateImages = function () {
     while (imageAtIndex(currentImages[j]).valid === false) {
       currentImages[j] = randomIndex();
     }
+    imageAtIndex(currentImages[j]).valid = false;
   }
 };
 
