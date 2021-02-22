@@ -8,6 +8,9 @@ let imageDOM = [
   document.getElementById('right-image')
 ];
 let countdown = 25;
+let objectNames = [];
+let objectShowings = [];
+let objectClickings = [];
 
 let header = document.getElementById('table-header');
 let body = document.getElementById('table-body');
@@ -16,6 +19,7 @@ let body = document.getElementById('table-body');
 let Images = function (imageName, fileFormat) {
   this.name = imageName;
   this.filePath = './img/' + imageName + '.' + fileFormat;
+  this.valid = true;
   this.timesShown = 0;
   this.timesClicked = 0;
 };
@@ -125,6 +129,33 @@ let makeTable = function () {
 };
 
 
+let makeChart = function () {
+  let ctx = document.getElementById('dataChart').getContext('2d');
+  ctx.canvas.width = '1000';
+  ctx.canvas.height = '250';
+  let chart = new Chart(ctx, {
+    type: 'bar',
+
+    data: {
+      labels: objectNames,
+      datasets: [{
+        label: "Times Seen",
+        borderWidth: 1,
+        backgroundColor: 'rgb(209, 157, 235)',
+        borderColor : 'rgb(64, 9, 92)',
+        data: objectShowings,
+      },
+      {
+        label: "Times Clicked",
+        borderWidth: 1,
+        backgroundColor: 'rgb(64, 9, 92)',
+        borderColor:  'rgb(209, 157, 235)',
+        data: objectClickings,
+      }]
+    }
+  });
+};
+
 
 
 let refresh = function () {
@@ -149,7 +180,10 @@ function oneClicked () {
     countdown--;
   } else {
     clearImages();
+    putDataInArrays();
     makeTable();
+    makeChart();
+
   }
 }
 
@@ -162,7 +196,9 @@ function twoClicked () {
     countdown--;
   } else {
     clearImages();
+    putDataInArrays();
     makeTable();
+    makeChart();
   }
 }
 
@@ -175,6 +211,20 @@ function threeClicked () {
     countdown--;
   } else {
     clearImages();
+    putDataInArrays();
     makeTable();
+    makeChart();
   }
 }
+
+let putDataInArrays = function () {
+  for (let p = 0; p < allImages.length; p++){
+    objectNames.push(allImages[p].name);
+    objectShowings.push(allImages[p].timesShown);
+    objectClickings.push(allImages[p].timesClicked);
+  }
+};
+
+
+
+
