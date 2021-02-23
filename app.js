@@ -7,6 +7,8 @@ let imageDOM = [
   document.getElementById('center-image'),
   document.getElementById('right-image')
 ];
+let reset = document.getElementById('reset-button');
+
 let countdown = 25;
 let objectNames = [];
 let objectShowings = [];
@@ -45,10 +47,8 @@ allImages.push(
   new Images('usb', 'gif'),
   new Images('water-can', 'jpg'),
   new Images('wine-glass', 'jpg')
+
 );
-
-
-
 
 Images.prototype.convertToImgTag = function () {
   return '<img id="' + this.name + '" src="' + this.filePath + '" >';
@@ -101,6 +101,13 @@ let clearImages = function () {
     imageDOM[m].style.visibility = 'hidden';
   }
 };
+let putDataInArrays = function () {
+  for (let p = 0; p < allImages.length; p++){
+    objectNames.push(allImages[p].name);
+    objectShowings.push(allImages[p].timesShown);
+    objectClickings.push(allImages[p].timesClicked);
+  }
+};
 
 
 let makeCell = function (input, parent, type) {
@@ -127,6 +134,29 @@ let makeTable = function () {
     body.appendChild(tableRow);
   }
 };
+let refresh = function () {
+  updateShown();
+  updateImages();
+  updatePage();
+};
+
+let saveProgress = function () {
+  localStorage.savedCountdown = countdown;
+  for (let saveSlot = 0; saveSlot < allImages.length; saveSlot++) {
+    localStorage['name for image #' + saveSlot] = imageAtIndex(saveSlot).name;
+    localStorage['image showings for image #' + saveSlot] = imageAtIndex(saveSlot).timesShown;
+    localStorage['image clickings for image #' + saveSlot] = imageAtIndex(saveSlot).timesClicked;
+  }
+};
+let loadProgress = function () {
+  countdown = parseInt(localStorage.savedCountdown);
+  for (let loadSlot = 0; loadSlot < allImages.length; loadSlot++) {
+    imageAtIndex(loadSlot).name = localStorage['name for image #' + loadSlot];
+    imageAtIndex(loadSlot).timesShown = parseInt(localStorage['image showings for image #' + loadSlot]);
+    imageAtIndex(loadSlot).timesClicked = parseInt(localStorage['image clickings for image #' + loadSlot]);
+  }
+};
+
 
 
 let makeChart = function () {
@@ -154,22 +184,19 @@ let makeChart = function () {
       }]
     }
   });
+  localStorage.firstTime = false;
 };
-
-
-
-let refresh = function () {
-  updateShown();
-  updateImages();
-  updatePage();
+var startUp = function () {
+  refresh();
+  if (localStorage.savedCountdown) {
+    loadProgress();}
 };
-
-refresh();
-
+startUp();
 
 imageDOM[0].addEventListener('click', oneClicked);
 imageDOM[1].addEventListener('click', twoClicked);
 imageDOM[2].addEventListener('click', threeClicked);
+reset.addEventListener('click', resetClick);
 
 
 
@@ -177,6 +204,7 @@ function oneClicked () {
   if (countdown > 0) {
     imageAtIndex(currentImages[0]).timesClicked++;
     refresh();
+    saveProgress();
     countdown--;
   } else {
     clearImages();
@@ -193,6 +221,7 @@ function twoClicked () {
   if (countdown > 0) {
     imageAtIndex(currentImages[1]).timesClicked++;
     refresh();
+    saveProgress();
     countdown--;
   } else {
     clearImages();
@@ -208,6 +237,7 @@ function threeClicked () {
   if (countdown > 0) {
     imageAtIndex(currentImages[2]).timesClicked++;
     refresh();
+    saveProgress();
     countdown--;
   } else {
     clearImages();
@@ -216,15 +246,12 @@ function threeClicked () {
     makeChart();
   }
 }
-
-let putDataInArrays = function () {
-  for (let p = 0; p < allImages.length; p++){
-    objectNames.push(allImages[p].name);
-    objectShowings.push(allImages[p].timesShown);
-    objectClickings.push(allImages[p].timesClicked);
-  }
-};
-
-
-
+function resetClick () {
+  startUp();
+  countdown = 25;
+  localStorage.savedCountdown = countdown;
+  imageDOM[0].addEventListener('click', oneClicked);
+  imageDOM[1].addEventListener('click', twoClicked);
+  imageDOM[2].addEventListener('click', threeClicked);
+}
 
